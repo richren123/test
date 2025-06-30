@@ -19,6 +19,12 @@ const routes: Array<RouteConfig> = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
+  {
+    path: "/codemirror",
+    name: "CodeMirror",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/codemirror/index.vue"),
+  },
 ];
 
 const router = new VueRouter({
