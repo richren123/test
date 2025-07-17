@@ -1,0 +1,62 @@
+Echarts处理大数据优化方案？
+
+启用 large 模式
+
+option = {
+  xAxis: {
+    type: 'category',
+    data: largeDataArray,
+  },
+  yAxis: {},
+  series: [{
+    type: 'bar',
+    data: largeDataArray,
+    showBackground: false,
+    large: true,        // 启用大数据优化
+    largeThreshold: 1000 // 数据量超过该值时启用 large 模式
+  }]
+};
+
+使用 Canvas 渲染器。
+
+const chart = echarts.init(document.getElementById('chart'), null, {
+  renderer: 'canvas' // 或 'svg'
+});
+
+使用 sampling 降低数据维度。
+
+option = {
+  series: [{
+    type: 'line',
+    data: largeDataArray,
+    sampling: 'lttb' // 可选：lttb（保留趋势）或 'average'（平均采样）
+  }]
+};
+
+启用 progressive 渐进渲染
+
+option = {
+  graphic: {
+    elements: []
+  },
+  series: [{
+    type: 'scatter',
+    data: largeDataArray,
+    progressive: 1000, // 每帧渲染 1000 个数据点
+    progressiveThreshold: 10000 // 超过该值启用渐进渲染
+  }]
+};
+
+使用 Web Worker 异步处理数据。
+
+使用 dataZoom 实现分页或懒加载。
+
+使用 echarts-gl 处理三维数据。
+
+
+
+为什么 <canvas> 比 <svg> 性能好？
+
+Canvas 不创建 DOM 节点，内存占用低。
+
+支持局部重绘和离屏渲染（参考 Canvas性能优化与优势总结）。
